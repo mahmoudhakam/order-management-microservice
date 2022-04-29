@@ -1,0 +1,196 @@
+version: '3.7'
+services:
+  zookeeper-1:
+    image: confluentinc/cp-zookeeper:6.2.0
+    restart: always
+    container_name: zookeeper-1
+    hostname: zookeeper-peer-1
+    networks:
+      - broker-kafka
+    ports:
+      - "12181:12181"
+    volumes:
+      - D:/Docker_Volumes/kafka-cluster/zookeeper-1/zoo/data:/var/lib/zookeeper/data
+      - D:/Docker_Volumes/kafka-cluster/zookeeper-1/zoo/log:/var/lib/zookeeper/log
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 12181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-peer-1:12888:13888;zookeeper-peer-2:22888:23888;zookeeper-peer-3:32888:33888
+
+  zookeeper-2:
+    image: confluentinc/cp-zookeeper:6.2.0
+    restart: always
+    container_name: zookeeper-2
+    hostname: zookeeper-peer-2
+    networks:
+      - broker-kafka
+    ports:
+      - "22181:22181"
+    volumes:
+      - D:/Docker_Volumes/kafka-cluster/zookeeper-2/zoo/data:/var/lib/zookeeper/data
+      - D:/Docker_Volumes/kafka-cluster/zookeeper-2/zoo/log:/var/lib/zookeeper/log
+    environment:
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_CLIENT_PORT: 22181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-peer-1:12888:13888;zookeeper-peer-2:22888:23888;zookeeper-peer-3:32888:33888
+
+  zookeeper-3:
+    image: confluentinc/cp-zookeeper:6.2.0
+    restart: always
+    container_name: zookeeper-3
+    hostname: zookeeper-peer-3
+    networks:
+      - broker-kafka
+    ports:
+      - "32181:32181"
+    volumes:
+      - D:/Docker_Volumes/kafka-cluster/zookeeper-3/zoo/data:/var/lib/zookeeper/data
+      - D:/Docker_Volumes/kafka-cluster/zookeeper-3/zoo/log:/var/lib/zookeeper/log
+    environment:
+      ZOOKEEPER_SERVER_ID: 3
+      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-peer-1:12888:13888;zookeeper-peer-2:22888:23888;zookeeper-peer-3:32888:33888
+
+  kafka-1:
+    image: confluentinc/cp-kafka:6.2.0
+    restart: always
+    container_name: kafka-1
+    hostname: kafka-peer-1
+    networks:
+      - broker-kafka
+    ports:
+      - "19092:19092"
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+    volumes:
+      - D:/Docker_Volumes/kafka-cluster/kafka-1/broker/data:/var/lib/kafka/data
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-peer-1:12181,zookeeper-peer-2:22181,zookeeper-peer-3:32181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-peer-1:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+      KAFKA_JMX_HOSTNAME: "kafka-peer-1"
+      KAFKA_JMX_PORT: 9999
+      KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka-peer-1
+        -Dcom.sun.management.jmxremote.local.only=false
+        -Dcom.sun.management.jmxremote.rmi.port=9999
+        -Dcom.sun.management.jmxremote.port=9999
+        -Dcom.sun.management.jmxremote.authenticate=false
+        -Dcom.sun.management.jmxremote.ssl=false"
+
+  kafka-2:
+    image: confluentinc/cp-kafka:6.2.0
+    restart: always
+    container_name: kafka-2
+    hostname: kafka-peer-2
+    networks:
+      - broker-kafka
+    ports:
+      - "29092:29092"
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+    volumes:
+      - D:/Docker_Volumes/kafka-cluster/kafka-2/broker/data:/var/lib/kafka/data
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-peer-1:12181,zookeeper-peer-2:22181,zookeeper-peer-3:32181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-peer-2:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+      KAFKA_JMX_HOSTNAME: "kafka-peer-2"
+      KAFKA_JMX_PORT: 9999
+      KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka-peer-2
+      -Dcom.sun.management.jmxremote.local.only=false
+      -Dcom.sun.management.jmxremote.rmi.port=9999
+      -Dcom.sun.management.jmxremote.port=9999
+      -Dcom.sun.management.jmxremote.authenticate=false
+      -Dcom.sun.management.jmxremote.ssl=false"
+
+  kafka-3:
+    image: confluentinc/cp-kafka:6.2.0
+    restart: always
+    container_name: kafka-3
+    hostname: kafka-peer-3
+    networks:
+      - broker-kafka
+    ports:
+      - "39092:39092"
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+    volumes:
+      - D:/Docker_Volumes/kafka-cluster/kafka-3/broker/data:/var/lib/kafka/data
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-peer-1:12181,zookeeper-peer-2:22181,zookeeper-peer-3:32181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-peer-3:39092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+      KAFKA_JMX_HOSTNAME: "kafka-peer-3"
+      KAFKA_JMX_PORT: 9999
+      KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka-peer-3
+      -Dcom.sun.management.jmxremote.local.only=false
+      -Dcom.sun.management.jmxremote.rmi.port=9999
+      -Dcom.sun.management.jmxremote.port=9999
+      -Dcom.sun.management.jmxremote.authenticate=false
+      -Dcom.sun.management.jmxremote.ssl=false"
+
+  kafka_manager:
+    image: hlebalbau/kafka-manager:stable
+    restart: always
+    container_name: kafka-manager
+    networks:
+      - broker-kafka
+    ports:
+      - "39000:9000"
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+    environment:
+      ZK_HOSTS: "zookeeper-peer-1:12181,zookeeper-peer-2:22181,zookeeper-peer-3:32181"
+      APPLICATION_SECRET: "random-secret"
+    command: -Dpidfile.path=/dev/null
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:3.8.1
+    restart: always
+    container_name: kafdrop_cluster
+    networks:
+      - broker-kafka
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+      - kafka-1
+      - kafka-2
+      - kafka-3
+    ports:
+      - "19000:9000"
+    expose:
+      - 19000
+    environment:
+      ZOOKEEPER_CONNECT: zookeeper-peer-1:12181,zookeeper-peer-2:22181,zookeeper-peer-3:32181
+      KAFKA_BROKERCONNECT: kafka-peer-1:19092,kafka-peer-2:29092,kafka-peer-3:39092
+
+networks:
+  broker-kafka:
+    driver: bridge
