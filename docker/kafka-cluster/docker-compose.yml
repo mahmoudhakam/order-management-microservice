@@ -69,6 +69,7 @@ services:
       - broker-kafka
     ports:
       - "19092:19092"
+      - "9092:9092"
     depends_on:
       - zookeeper-1
       - zookeeper-2
@@ -76,11 +77,14 @@ services:
     volumes:
       - D:/Docker_Volumes/kafka-cluster/kafka-1/broker/data:/var/lib/kafka/data
     environment:
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      ALLOW_PLAINTEXT_LISTENER: "yes"
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-peer-1:12181,zookeeper-peer-2:22181,zookeeper-peer-3:32181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-peer-1:19092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:9092,PLAINTEXT_HOST://0.0.0.0:19092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-peer-1:9092,PLAINTEXT_HOST://localhost:19092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_JMX_HOSTNAME: "kafka-peer-1"
       KAFKA_JMX_PORT: 9999
@@ -100,6 +104,7 @@ services:
       - broker-kafka
     ports:
       - "29092:29092"
+      - "9093:9093"
     depends_on:
       - zookeeper-1
       - zookeeper-2
@@ -107,20 +112,23 @@ services:
     volumes:
       - D:/Docker_Volumes/kafka-cluster/kafka-2/broker/data:/var/lib/kafka/data
     environment:
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      ALLOW_PLAINTEXT_LISTENER: "yes"
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-peer-1:12181,zookeeper-peer-2:22181,zookeeper-peer-3:32181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-peer-2:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:9093,PLAINTEXT_HOST://0.0.0.0:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-peer-2:9093,PLAINTEXT_HOST://localhost:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_JMX_HOSTNAME: "kafka-peer-2"
       KAFKA_JMX_PORT: 9999
       KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka-peer-2
-      -Dcom.sun.management.jmxremote.local.only=false
-      -Dcom.sun.management.jmxremote.rmi.port=9999
-      -Dcom.sun.management.jmxremote.port=9999
-      -Dcom.sun.management.jmxremote.authenticate=false
-      -Dcom.sun.management.jmxremote.ssl=false"
+            -Dcom.sun.management.jmxremote.local.only=false
+            -Dcom.sun.management.jmxremote.rmi.port=9999
+            -Dcom.sun.management.jmxremote.port=9999
+            -Dcom.sun.management.jmxremote.authenticate=false
+            -Dcom.sun.management.jmxremote.ssl=false"
 
   kafka-3:
     image: confluentinc/cp-kafka:6.2.0
@@ -131,6 +139,7 @@ services:
       - broker-kafka
     ports:
       - "39092:39092"
+      - "9094:9094"
     depends_on:
       - zookeeper-1
       - zookeeper-2
@@ -138,20 +147,23 @@ services:
     volumes:
       - D:/Docker_Volumes/kafka-cluster/kafka-3/broker/data:/var/lib/kafka/data
     environment:
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      ALLOW_PLAINTEXT_LISTENER: "yes"
       KAFKA_BROKER_ID: 3
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper-peer-1:12181,zookeeper-peer-2:22181,zookeeper-peer-3:32181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-peer-3:39092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-peer-2:12181,zookeeper-peer-2:22181,zookeeper-peer-3:32181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_LISTENERS: PLAINTEXT://:9094,PLAINTEXT_HOST://0.0.0.0:39092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-peer-3:9094,PLAINTEXT_HOST://localhost:39092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
       KAFKA_JMX_HOSTNAME: "kafka-peer-3"
       KAFKA_JMX_PORT: 9999
       KAFKA_JMX_OPTS: "-Djava.rmi.server.hostname=kafka-peer-3
-      -Dcom.sun.management.jmxremote.local.only=false
-      -Dcom.sun.management.jmxremote.rmi.port=9999
-      -Dcom.sun.management.jmxremote.port=9999
-      -Dcom.sun.management.jmxremote.authenticate=false
-      -Dcom.sun.management.jmxremote.ssl=false"
+            -Dcom.sun.management.jmxremote.local.only=false
+            -Dcom.sun.management.jmxremote.rmi.port=9999
+            -Dcom.sun.management.jmxremote.port=9999
+            -Dcom.sun.management.jmxremote.authenticate=false
+            -Dcom.sun.management.jmxremote.ssl=false"
 
   kafka_manager:
     image: hlebalbau/kafka-manager:stable
