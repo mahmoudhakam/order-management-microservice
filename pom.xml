@@ -21,6 +21,8 @@
         <module>warehouse-carbon-service</module>
         <module>notification-carbon-service</module>
         <module>payment-carbon-service</module>
+        <module>customer-carbon-service</module>
+        <module>product-catalogue-carbon-service</module>
     </modules>
 
     <properties>

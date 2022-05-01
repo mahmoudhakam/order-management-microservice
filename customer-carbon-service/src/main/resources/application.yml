@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_USER:root}:${MONGO_PASSWORD:carbonroot}@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/customer-db
+
+server:
+  port: 9064
