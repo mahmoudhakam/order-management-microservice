@@ -9,16 +9,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Value
 @RequiredArgsConstructor
 public class StockLine {
-  @Id
-  private final String itemId;
-  private final Integer amountAvailable;
-  private final Integer amountReserved;
 
-  public StockLine reserve(int quantity) {
-    return new StockLine(itemId, amountAvailable-quantity, amountReserved+quantity);
-  }
+    @Id
+    private final String itemId;
 
-  public StockLine clearReservation(int quantity) {
-    return new StockLine(itemId, amountAvailable+quantity, amountReserved-quantity);
-  }
+    private final Integer amountAvailable;
+
+    private final Integer amountReserved;
+
+    public StockLine reserve(int quantity) {
+
+        return new StockLine(itemId, amountAvailable - quantity, amountReserved + quantity);
+    }
+
+    public StockLine clearReservation(int quantity) {
+
+        return new StockLine(itemId, amountAvailable + quantity, amountReserved - quantity);
+    }
+
 }

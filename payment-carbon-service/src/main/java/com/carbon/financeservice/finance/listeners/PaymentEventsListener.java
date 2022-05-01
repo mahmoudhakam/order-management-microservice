@@ -15,18 +15,22 @@ import static com.carbon.financeservice.common.config.KafkaConfig.FINANCE_PAYMEN
 @Component
 @RequiredArgsConstructor
 public class PaymentEventsListener {
-  private final FinanceService financeService;
-  private final NotificationService notificationService;
 
-  @KafkaListener(topics = FINANCE_PAYMENT_PROCESS_TOPIC)
-  public void processPayment(@Payload Object event) {
-    var order = (Order) event;
-    log.info("received payment processing event for order {}", order.getId());
-    financeService.processPayment(order)
-        .doOnError(error -> financeService.rejectPayment(order.getId(), error.getMessage()))
-        .doOnError(error -> notificationService.informCustomerAboutCancellation(order.getCustomerId(), order.getId(), error.getMessage()))
-        .doOnSuccess(financeService::confirmPayment)
-        .doOnSuccess(notificationService::informCustomerAboutPayment)
-        .subscribe();
-  }
+    private final FinanceService financeService;
+
+    private final NotificationService notificationService;
+
+    @KafkaListener(topics = FINANCE_PAYMENT_PROCESS_TOPIC)
+    public void processPayment(@Payload Object event) {
+
+        var order = (Order) event;
+        log.info("received payment processing event for order {}", order.getId());
+        financeService.processPayment(order)
+                .doOnError(error -> financeService.rejectPayment(order.getId(), error.getMessage()))
+                .doOnError(error -> notificationService.informCustomerAboutCancellation(order.getCustomerId(), order.getId(), error.getMessage()))
+                .doOnSuccess(financeService::confirmPayment)
+                .doOnSuccess(notificationService::informCustomerAboutPayment)
+                .subscribe();
+    }
+
 }

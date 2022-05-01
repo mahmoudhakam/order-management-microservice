@@ -8,9 +8,15 @@ import lombok.Value;
 @Builder
 @RequiredArgsConstructor
 public class PaymentDetails {
-  private final String cardType;
-  private final String nameOnCard;
-  private final String cardNumber;
-  private final Integer cvv;
-  private final String expires;
+
+    private final String cardType;
+
+    private final String nameOnCard;
+
+    private final String cardNumber;
+
+    private final Integer cvv;
+
+    private final String expires;
+
 }

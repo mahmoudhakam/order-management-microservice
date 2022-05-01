@@ -8,8 +8,13 @@ import java.math.BigDecimal;
 @Value
 @RequiredArgsConstructor
 public class InvoiceLine {
-  private final String itemId;
-  private final String fullItemDescription;
-  private final Integer quantity;
-  private final BigDecimal price;
+
+    private final String itemId;
+
+    private final String fullItemDescription;
+
+    private final Integer quantity;
+
+    private final BigDecimal price;
+
 }

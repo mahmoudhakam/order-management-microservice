@@ -17,13 +17,22 @@ import java.util.List;
 @With
 @RequiredArgsConstructor
 public class Invoice {
-  @Id
-  private final String id;
-  private final String orderId;
-  private final String customerId;
-  private final List<InvoiceLine> invoiceLines;
-  private final PaymentDetails paymentDetails;
-  private final Address billingAddress;
-  private final BigDecimal totalChargeAmount;
-  private final Instant dateCreated;
+
+    @Id
+    private final String id;
+
+    private final String orderId;
+
+    private final String customerId;
+
+    private final List<InvoiceLine> invoiceLines;
+
+    private final PaymentDetails paymentDetails;
+
+    private final Address billingAddress;
+
+    private final BigDecimal totalChargeAmount;
+
+    private final Instant dateCreated;
+
 }

@@ -1,7 +1,5 @@
 package com.carbon.financeservice.finance.clients;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 import com.carbon.financeservice.common.exceptions.ServiceApiException;
 import com.carbon.financeservice.common.models.ApiErrorResponse;
 import com.carbon.financeservice.finance.domain.ProductItem;
@@ -15,30 +13,37 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.client.HttpClient;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @Component
 public class CatalogueServiceClient {
-  private final WebClient webClient;
 
-  public CatalogueServiceClient(WebClient.Builder webClientBuilder, @Value("${app.catalogue-service.products-uri}") String baseUri) {
-    this.webClient = webClientBuilder
-        .baseUrl(baseUri)
-        .defaultHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
-        .defaultHeader(HttpHeaders.ACCEPT, APPLICATION_JSON_VALUE)
-        .clientConnector(new ReactorClientHttpConnector(HttpClient.newConnection().compress(true)))
-        .build();
-  }
+    private final WebClient webClient;
 
-  public Mono<ProductItem> findProductItem(String itemId) {
-    return webClient
-        .get()
-        .uri(builder -> builder.path(itemId).build())
-        .retrieve()
-        .onStatus(HttpStatus::isError, CatalogueServiceClient::mapErrorResponse)
-        .bodyToMono(ProductItem.class);
-  }
+    public CatalogueServiceClient(WebClient.Builder webClientBuilder, @Value("${app.catalogue-service.products-uri}") String baseUri) {
 
-  private static Mono<Throwable> mapErrorResponse(ClientResponse response) {
-    return response.bodyToMono(ApiErrorResponse.class)
-        .flatMap(error -> Mono.error(new ServiceApiException(response.statusCode(), error.getMessage())));
-  }
+        this.webClient = webClientBuilder
+                .baseUrl(baseUri)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.ACCEPT, APPLICATION_JSON_VALUE)
+                .clientConnector(new ReactorClientHttpConnector(HttpClient.newConnection().compress(true)))
+                .build();
+    }
+
+    private static Mono<Throwable> mapErrorResponse(ClientResponse response) {
+
+        return response.bodyToMono(ApiErrorResponse.class)
+                .flatMap(error -> Mono.error(new ServiceApiException(response.statusCode(), error.getMessage())));
+    }
+
+    public Mono<ProductItem> findProductItem(String itemId) {
+
+        return webClient
+                .get()
+                .uri(builder -> builder.path(itemId).build())
+                .retrieve()
+                .onStatus(HttpStatus::isError, CatalogueServiceClient::mapErrorResponse)
+                .bodyToMono(ProductItem.class);
+    }
+
 }

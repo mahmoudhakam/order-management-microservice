@@ -6,5 +6,7 @@ import lombok.Value;
 @Value
 @RequiredArgsConstructor
 public class ApiErrorResponse {
-  private final String message;
+
+    private final String message;
+
 }

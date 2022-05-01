@@ -6,5 +6,7 @@ import lombok.Value;
 @Value
 @RequiredArgsConstructor
 public class StockConfirmationEvent {
-  private final String orderId;
+
+    private final String orderId;
+
 }

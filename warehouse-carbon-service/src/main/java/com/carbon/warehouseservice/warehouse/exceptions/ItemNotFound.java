@@ -1,7 +1,10 @@
 package com.carbon.warehouseservice.warehouse.exceptions;
 
 public class ItemNotFound extends RuntimeException {
-  public ItemNotFound(String itemId) {
-    super(String.format("item with id %s does not exist", itemId));
-  }
+
+    public ItemNotFound(String itemId) {
+
+        super(String.format("item with id %s does not exist", itemId));
+    }
+
 }

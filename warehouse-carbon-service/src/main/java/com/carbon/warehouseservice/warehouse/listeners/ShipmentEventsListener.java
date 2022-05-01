@@ -15,15 +15,19 @@ import static com.carbon.warehouseservice.common.configs.KafkaConfig.WAREHOUSE_S
 @Component
 @RequiredArgsConstructor
 public class ShipmentEventsListener {
-  private final ShipmentService shipmentService;
-  private final NotificationService notificationService;
 
-  @KafkaListener(topics = WAREHOUSE_SHIPMENT_DISPATCH_TOPIC)
-  public void dispatch(@Payload Object event) {
-    var order = (Order) event;
-    log.info("received shipment dispatch event for order {}", order.getId());
-    shipmentService.prepare(order)
-        .doOnNext(notificationService::informCustomerAboutShipment)
-        .subscribe();
-  }
+    private final ShipmentService shipmentService;
+
+    private final NotificationService notificationService;
+
+    @KafkaListener(topics = WAREHOUSE_SHIPMENT_DISPATCH_TOPIC)
+    public void dispatch(@Payload Object event) {
+
+        var order = (Order) event;
+        log.info("received shipment dispatch event for order {}", order.getId());
+        shipmentService.prepare(order)
+                .doOnNext(notificationService::informCustomerAboutShipment)
+                .subscribe();
+    }
+
 }

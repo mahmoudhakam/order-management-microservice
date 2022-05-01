@@ -10,17 +10,22 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
-  private final CustomerServiceClient customerServiceClient;
 
-  public Mono<Void> notifyAboutCancellation(String customerId, String orderId, String message) {
-    return Mono.empty();
-  }
+    private final CustomerServiceClient customerServiceClient;
 
-  public Mono<Void> notifyAboutShipping(Shipment shipment) {
-    return Mono.empty();
-  }
+    public Mono<Void> notifyAboutCancellation(String customerId, String orderId, String message) {
 
-  public Mono<Void> notifyAboutPayment(Invoice invoice) {
-    return Mono.empty();
-  }
+        return Mono.empty();
+    }
+
+    public Mono<Void> notifyAboutShipping(Shipment shipment) {
+
+        return Mono.empty();
+    }
+
+    public Mono<Void> notifyAboutPayment(Invoice invoice) {
+
+        return Mono.empty();
+    }
+
 }

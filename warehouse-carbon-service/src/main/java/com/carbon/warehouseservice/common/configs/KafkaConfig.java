@@ -24,88 +24,104 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 public class KafkaConfig {
-  public static final String WAREHOUSE_STOCK_RESERVE_TOPIC = "warehouse.stock.reserve";
-  public static final String WAREHOUSE_STOCK_RELEASE_TOPIC = "warehouse.stock.release";
-  public static final String WAREHOUSE_SHIPMENT_DISPATCH_TOPIC = "warehouse.shipment.dispatch";
 
-  public static final String ORDER_STOCK_CONFIRM_TOPIC = "order.stock.confirm";
-  public static final String ORDER_STOCK_REJECT_TOPIC = "order.stock.reject";
+    public static final String WAREHOUSE_STOCK_RESERVE_TOPIC = "warehouse.stock.reserve";
 
-  public static final String NOTIFICATION_ORDER_CANCELLED_TOPIC = "notification.order.cancelled";
-  public static final String NOTIFICATION_ORDER_SHIPPING_TOPIC = "notification.order.shipping";
+    public static final String WAREHOUSE_STOCK_RELEASE_TOPIC = "warehouse.stock.release";
 
-  @Value("${spring.kafka.bootstrap-servers}")
-  private String bootstrapServers;
+    public static final String WAREHOUSE_SHIPMENT_DISPATCH_TOPIC = "warehouse.shipment.dispatch";
 
-  @Bean
-  public KafkaAdmin admin() {
-    return new KafkaAdmin(Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers));
-  }
+    public static final String ORDER_STOCK_CONFIRM_TOPIC = "order.stock.confirm";
 
-  @Bean
-  public NewTopic stockReserveTopic() {
-    return TopicBuilder.name(WAREHOUSE_STOCK_RESERVE_TOPIC)
-        .config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
-        .build();
-  }
+    public static final String ORDER_STOCK_REJECT_TOPIC = "order.stock.reject";
 
-  @Bean
-  public NewTopic stockReleaseTopic() {
-    return TopicBuilder.name(WAREHOUSE_STOCK_RELEASE_TOPIC)
-      .config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
-      .build();
-  }
+    public static final String NOTIFICATION_ORDER_CANCELLED_TOPIC = "notification.order.cancelled";
 
-  @Bean
-  public NewTopic shipmentDispatchTopic() {
-    return TopicBuilder.name(WAREHOUSE_SHIPMENT_DISPATCH_TOPIC)
-      .config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
-      .build();
-  }
+    public static final String NOTIFICATION_ORDER_SHIPPING_TOPIC = "notification.order.shipping";
 
-  @Bean
-  public ConsumerFactory<String, Object> consumerFactory() {
-    JsonDeserializer<Object> jsonDeserializer = new JsonDeserializer<>();
-    jsonDeserializer.addTrustedPackages("*");
-    return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), jsonDeserializer);
-  }
+    @Value("${spring.kafka.bootstrap-servers}")
+    private String bootstrapServers;
 
-  @Bean
-  public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Object>> kafkaListenerContainerFactory() {
-    ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
-    factory.setConsumerFactory(consumerFactory());
-    factory.setConcurrency(3);
-    factory.getContainerProperties().setPollTimeout(3000);
-    return factory;
-  }
+    @Bean
+    public KafkaAdmin admin() {
 
-  @Bean
-  public Map<String, Object> consumerConfigs() {
-    return Map.of(
-        ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
-        ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
-        ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class,
-        ConsumerConfig.GROUP_ID_CONFIG, "json",
-        ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"
-    );
-  }
+        return new KafkaAdmin(Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers));
+    }
 
-  @Bean
-  public ProducerFactory<String, Object> producerFactory() {
-    return new DefaultKafkaProducerFactory<>(producerConfigs());
-  }
+    @Bean
+    public NewTopic stockReserveTopic() {
 
-  @Bean
-  public Map<String, Object> producerConfigs() {
-    return Map.of(
-        ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
-        ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
-        ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class
-    );
-  }
+        return TopicBuilder.name(WAREHOUSE_STOCK_RESERVE_TOPIC)
+                .config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
+                .build();
+    }
 
-  @Bean
-  public KafkaTemplate<String, Object> kafkaTemplate() {
-    return new KafkaTemplate<>(producerFactory());
-  }
+    @Bean
+    public NewTopic stockReleaseTopic() {
+
+        return TopicBuilder.name(WAREHOUSE_STOCK_RELEASE_TOPIC)
+                .config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
+                .build();
+    }
+
+    @Bean
+    public NewTopic shipmentDispatchTopic() {
+
+        return TopicBuilder.name(WAREHOUSE_SHIPMENT_DISPATCH_TOPIC)
+                .config(TopicConfig.COMPRESSION_TYPE_CONFIG, "zstd")
+                .build();
+    }
+
+    @Bean
+    public ConsumerFactory<String, Object> consumerFactory() {
+
+        JsonDeserializer<Object> jsonDeserializer = new JsonDeserializer<>();
+        jsonDeserializer.addTrustedPackages("*");
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), new StringDeserializer(), jsonDeserializer);
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Object>> kafkaListenerContainerFactory() {
+
+        ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setConcurrency(3);
+        factory.getContainerProperties().setPollTimeout(3000);
+        return factory;
+    }
+
+    @Bean
+    public Map<String, Object> consumerConfigs() {
+
+        return Map.of(
+                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
+                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
+                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class,
+                ConsumerConfig.GROUP_ID_CONFIG, "json",
+                ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"
+        );
+    }
+
+    @Bean
+    public ProducerFactory<String, Object> producerFactory() {
+
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
+    }
+
+    @Bean
+    public Map<String, Object> producerConfigs() {
+
+        return Map.of(
+                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers,
+                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class
+        );
+    }
+
+    @Bean
+    public KafkaTemplate<String, Object> kafkaTemplate() {
+
+        return new KafkaTemplate<>(producerFactory());
+    }
+
 }

@@ -10,9 +10,12 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 public class ShipmentService {
-  private final ShipmentRepository shipmentRepository;
 
-  public Mono<Shipment> prepare(Order order) {
-    return shipmentRepository.save(order.toShipment());
-  }
+    private final ShipmentRepository shipmentRepository;
+
+    public Mono<Shipment> prepare(Order order) {
+
+        return shipmentRepository.save(order.toShipment());
+    }
+
 }

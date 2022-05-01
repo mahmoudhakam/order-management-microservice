@@ -6,6 +6,9 @@ import lombok.Value;
 @Value
 @RequiredArgsConstructor
 public class OrderLine {
-  private final String itemId;
-  private final Integer quantity;
+
+    private final String itemId;
+
+    private final Integer quantity;
+
 }

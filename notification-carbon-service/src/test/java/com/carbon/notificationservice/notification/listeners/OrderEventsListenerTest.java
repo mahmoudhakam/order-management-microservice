@@ -16,45 +16,50 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class OrderEventsListenerTest {
 
-  @Mock
-  NotificationService notificationService;
+    @Mock
+    NotificationService notificationService;
 
-  @InjectMocks
-  OrderEventsListener orderEventsListener;
+    @InjectMocks
+    OrderEventsListener orderEventsListener;
 
-  String orderId = "order-1";
-  String customerId = "customer-1";
+    String orderId = "order-1";
 
-  @Test
-  void notifyAboutCancellation() {
-    var event = new OrderCancellationEvent(orderId, customerId, "error");
+    String customerId = "customer-1";
 
-    doAnswer(inv -> Mono.empty()).when(notificationService).notifyAboutCancellation(anyString(), anyString(), anyString());
+    @Test
+    void notifyAboutCancellation() {
 
-    orderEventsListener.notifyAboutCancellation(event);
+        var event = new OrderCancellationEvent(orderId, customerId, "error");
 
-    verify(notificationService, timeout(500)).notifyAboutCancellation(customerId, orderId, "error");
-  }
+        doAnswer(inv -> Mono.empty()).when(notificationService).notifyAboutCancellation(anyString(), anyString(), anyString());
 
-  @Test
-  void notifyAboutShipping() {
-    var shipment = Shipment.builder().build();
+        orderEventsListener.notifyAboutCancellation(event);
 
-    doAnswer(inv -> Mono.empty()).when(notificationService).notifyAboutShipping(any());
+        verify(notificationService, timeout(500)).notifyAboutCancellation(customerId, orderId, "error");
+    }
 
-    orderEventsListener.notifyAboutShipping(shipment);
+    @Test
+    void notifyAboutShipping() {
 
-    verify(notificationService, timeout(500)).notifyAboutShipping(shipment);
-  }
+        var shipment = Shipment.builder().build();
 
-  @Test
-  void notifyAboutPayment() {
-    var invoice = Invoice.builder().build();
+        doAnswer(inv -> Mono.empty()).when(notificationService).notifyAboutShipping(any());
 
-    doAnswer(inv -> Mono.empty()).when(notificationService).notifyAboutPayment(any());
+        orderEventsListener.notifyAboutShipping(shipment);
 
-    orderEventsListener.notifyAboutPayment(invoice);
+        verify(notificationService, timeout(500)).notifyAboutShipping(shipment);
+    }
 
-    verify(notificationService, timeout(500)).notifyAboutPayment(invoice);
-  }
+    @Test
+    void notifyAboutPayment() {
+
+        var invoice = Invoice.builder().build();
+
+        doAnswer(inv -> Mono.empty()).when(notificationService).notifyAboutPayment(any());
+
+        orderEventsListener.notifyAboutPayment(invoice);
+
+        verify(notificationService, timeout(500)).notifyAboutPayment(invoice);
+    }
+
 }

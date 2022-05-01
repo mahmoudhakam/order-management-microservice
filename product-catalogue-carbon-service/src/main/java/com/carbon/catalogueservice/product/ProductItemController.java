@@ -11,10 +11,13 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @RequestMapping("/products")
 public class ProductItemController {
-  private final ProductItemService productItemService;
 
-  @GetMapping("/{id}")
-  public Mono<ProductItem> getOne(@PathVariable String id) {
-    return productItemService.get(id);
-  }
+    private final ProductItemService productItemService;
+
+    @GetMapping("/{id}")
+    public Mono<ProductItem> getOne(@PathVariable String id) {
+
+        return productItemService.get(id);
+    }
+
 }

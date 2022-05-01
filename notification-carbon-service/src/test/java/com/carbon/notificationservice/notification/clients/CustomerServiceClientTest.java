@@ -13,62 +13,68 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 class CustomerServiceClientTest {
-  private static final String CUSTOMER_SERVICE_URI = "/customer/";
 
-  final MockWebServer mockWebServer = new MockWebServer();
+    private static final String CUSTOMER_SERVICE_URI = "/customer/";
 
-  CustomerServiceClient customerServiceClient;
+    final MockWebServer mockWebServer = new MockWebServer();
 
-  String customerId = "customer-1";
+    CustomerServiceClient customerServiceClient;
 
-  @BeforeEach
-  void setup() {
-    customerServiceClient = new CustomerServiceClient(WebClient.builder(), mockWebServer.url(CUSTOMER_SERVICE_URI).toString());
-  }
+    String customerId = "customer-1";
 
-  @AfterEach
-  void tearDown() throws Exception {
-    mockWebServer.shutdown();
-  }
+    @BeforeEach
+    void setup() {
 
-  @Test
-  void findProductItem() throws Exception {
-    mockWebServer.enqueue(new MockResponse()
-        .setResponseCode(200)
-        .setBody("{\"id\": \"customer-1\", \"email\":  \"test@test.com\"}")
-        .setHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE));
+        customerServiceClient = new CustomerServiceClient(WebClient.builder(), mockWebServer.url(CUSTOMER_SERVICE_URI).toString());
+    }
 
-    var foundItem = customerServiceClient.findCustomer(customerId);
+    @AfterEach
+    void tearDown() throws Exception {
 
-    StepVerifier
-        .create(foundItem)
-        .expectNextMatches(item -> item.getId().equals(customerId) && item.getEmail().equals("test@test.com"))
-        .verifyComplete();
+        mockWebServer.shutdown();
+    }
 
-    var recordedRequest = mockWebServer.takeRequest();
-    assertThat(recordedRequest.getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo(APPLICATION_JSON_VALUE);
-    assertThat(recordedRequest.getHeader(HttpHeaders.ACCEPT)).isEqualTo(APPLICATION_JSON_VALUE);
-    assertThat(recordedRequest.getPath()).isEqualTo("/customer/customer-1");
-    assertThat(recordedRequest.getMethod()).isEqualTo("GET");
-  }
+    @Test
+    void findProductItem() throws Exception {
 
-  @Test
-  void findProductItemWhenReturnsError() throws Exception {
-    mockWebServer.enqueue(new MockResponse()
-        .setResponseCode(400)
-        .setBody("{\"message\": \"error-message\"}")
-        .setHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE));
+        mockWebServer.enqueue(new MockResponse()
+                .setResponseCode(200)
+                .setBody("{\"id\": \"customer-1\", \"email\":  \"test@test.com\"}")
+                .setHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE));
 
-    var foundItem = customerServiceClient.findCustomer(customerId);
+        var foundItem = customerServiceClient.findCustomer(customerId);
 
-    StepVerifier
-        .create(foundItem)
-        .verifyErrorMatches(error -> error.getMessage().equals("error-message"));
+        StepVerifier
+                .create(foundItem)
+                .expectNextMatches(item -> item.getId().equals(customerId) && item.getEmail().equals("test@test.com"))
+                .verifyComplete();
 
-    var recordedRequest = mockWebServer.takeRequest();
-    assertThat(recordedRequest.getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo(APPLICATION_JSON_VALUE);
-    assertThat(recordedRequest.getHeader(HttpHeaders.ACCEPT)).isEqualTo(APPLICATION_JSON_VALUE);
-    assertThat(recordedRequest.getPath()).isEqualTo("/customer/customer-1");
-    assertThat(recordedRequest.getMethod()).isEqualTo("GET");
-  }
+        var recordedRequest = mockWebServer.takeRequest();
+        assertThat(recordedRequest.getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo(APPLICATION_JSON_VALUE);
+        assertThat(recordedRequest.getHeader(HttpHeaders.ACCEPT)).isEqualTo(APPLICATION_JSON_VALUE);
+        assertThat(recordedRequest.getPath()).isEqualTo("/customer/customer-1");
+        assertThat(recordedRequest.getMethod()).isEqualTo("GET");
+    }
+
+    @Test
+    void findProductItemWhenReturnsError() throws Exception {
+
+        mockWebServer.enqueue(new MockResponse()
+                .setResponseCode(400)
+                .setBody("{\"message\": \"error-message\"}")
+                .setHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE));
+
+        var foundItem = customerServiceClient.findCustomer(customerId);
+
+        StepVerifier
+                .create(foundItem)
+                .verifyErrorMatches(error -> error.getMessage().equals("error-message"));
+
+        var recordedRequest = mockWebServer.takeRequest();
+        assertThat(recordedRequest.getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo(APPLICATION_JSON_VALUE);
+        assertThat(recordedRequest.getHeader(HttpHeaders.ACCEPT)).isEqualTo(APPLICATION_JSON_VALUE);
+        assertThat(recordedRequest.getPath()).isEqualTo("/customer/customer-1");
+        assertThat(recordedRequest.getMethod()).isEqualTo("GET");
+    }
+
 }

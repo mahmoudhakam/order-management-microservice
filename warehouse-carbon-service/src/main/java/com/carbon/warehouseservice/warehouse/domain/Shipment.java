@@ -15,11 +15,18 @@ import java.time.Instant;
 @With
 @RequiredArgsConstructor
 public class Shipment {
-  @Id
-  private final String id;
-  private final String orderId;
-  private final String customerId;
-  private final Address shippingAddress;
-  private final Instant dateCreated;
-  private final Instant dateShipped;
+
+    @Id
+    private final String id;
+
+    private final String orderId;
+
+    private final String customerId;
+
+    private final Address shippingAddress;
+
+    private final Instant dateCreated;
+
+    private final Instant dateShipped;
+
 }

@@ -11,9 +11,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 @RequiredArgsConstructor
 public class Customer {
-  @Id
-  private final String id;
-  private final String firstName;
-  private final String lastName;
-  private final String email;
+
+    @Id
+    private final String id;
+
+    private final String firstName;
+
+    private final String lastName;
+
+    private final String email;
+
 }

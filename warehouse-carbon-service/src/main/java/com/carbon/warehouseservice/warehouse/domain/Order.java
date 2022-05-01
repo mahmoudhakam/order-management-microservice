@@ -11,17 +11,23 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 public class Order {
-  private final String id;
-  private final String customerId;
-  private final List<OrderLine> orderLines;
-  private final Address shippingAddress;
 
-  public Shipment toShipment() {
-    return Shipment.builder()
-      .orderId(id)
-      .customerId(customerId)
-      .shippingAddress(shippingAddress)
-      .dateCreated(Instant.now())
-      .build();
-  }
+    private final String id;
+
+    private final String customerId;
+
+    private final List<OrderLine> orderLines;
+
+    private final Address shippingAddress;
+
+    public Shipment toShipment() {
+
+        return Shipment.builder()
+                .orderId(id)
+                .customerId(customerId)
+                .shippingAddress(shippingAddress)
+                .dateCreated(Instant.now())
+                .build();
+    }
+
 }

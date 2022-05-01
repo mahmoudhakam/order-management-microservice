@@ -11,10 +11,13 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @RequestMapping("/customers")
 public class CustomerController {
-  private final CustomerService customerService;
 
-  @GetMapping("/{id}")
-  public Mono<Customer> getOne(@PathVariable String id) {
-    return customerService.get(id);
-  }
+    private final CustomerService customerService;
+
+    @GetMapping("/{id}")
+    public Mono<Customer> getOne(@PathVariable String id) {
+
+        return customerService.get(id);
+    }
+
 }

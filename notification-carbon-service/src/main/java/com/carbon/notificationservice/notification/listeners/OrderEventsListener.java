@@ -15,29 +15,34 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class OrderEventsListener {
-  private final NotificationService notificationService;
 
-  @KafkaListener(topics = KafkaConfig.NOTIFICATION_ORDER_CANCELLED_TOPIC)
-  public void notifyAboutCancellation(@Payload Object event) {
-    var oce = (OrderCancellationEvent) event;
-    log.info("received order cancelled notification for customer {}", oce.getCustomerId());
-    notificationService.notifyAboutCancellation(oce.getCustomerId(), oce.getOrderId(), oce.getMessage())
-        .subscribe();
-  }
+    private final NotificationService notificationService;
 
-  @KafkaListener(topics = KafkaConfig.NOTIFICATION_ORDER_SHIPPING_TOPIC)
-  public void notifyAboutShipping(@Payload Object event) {
-    var shipment = (Shipment) event;
-    log.info("received shipment notification for customer {}", shipment.getCustomerId());
-    notificationService.notifyAboutShipping(shipment)
-        .subscribe();
-  }
+    @KafkaListener(topics = KafkaConfig.NOTIFICATION_ORDER_CANCELLED_TOPIC)
+    public void notifyAboutCancellation(@Payload Object event) {
 
-  @KafkaListener(topics = KafkaConfig.NOTIFICATION_ORDER_PAYED_TOPIC)
-  public void notifyAboutPayment(@Payload Object event) {
-    var invoice = (Invoice) event;
-    log.info("received invoice notification for customer {}", invoice.getCustomerId());
-    notificationService.notifyAboutPayment(invoice)
-        .subscribe();
-  }
+        var oce = (OrderCancellationEvent) event;
+        log.info("received order cancelled notification for customer {}", oce.getCustomerId());
+        notificationService.notifyAboutCancellation(oce.getCustomerId(), oce.getOrderId(), oce.getMessage())
+                .subscribe();
+    }
+
+    @KafkaListener(topics = KafkaConfig.NOTIFICATION_ORDER_SHIPPING_TOPIC)
+    public void notifyAboutShipping(@Payload Object event) {
+
+        var shipment = (Shipment) event;
+        log.info("received shipment notification for customer {}", shipment.getCustomerId());
+        notificationService.notifyAboutShipping(shipment)
+                .subscribe();
+    }
+
+    @KafkaListener(topics = KafkaConfig.NOTIFICATION_ORDER_PAYED_TOPIC)
+    public void notifyAboutPayment(@Payload Object event) {
+
+        var invoice = (Invoice) event;
+        log.info("received invoice notification for customer {}", invoice.getCustomerId());
+        notificationService.notifyAboutPayment(invoice)
+                .subscribe();
+    }
+
 }

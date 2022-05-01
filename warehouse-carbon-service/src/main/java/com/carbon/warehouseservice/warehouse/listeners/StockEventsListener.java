@@ -17,30 +17,35 @@ import static com.carbon.warehouseservice.common.configs.KafkaConfig.WAREHOUSE_S
 @Component
 @RequiredArgsConstructor
 public class StockEventsListener {
-  private final WarehouseService warehouseService;
-  private final NotificationService notificationService;
 
-  @KafkaListener(topics = WAREHOUSE_STOCK_RESERVE_TOPIC)
-  public void reserveStock(@Payload Object event) {
-    var order = (Order) event;
-    log.info("received stock reservation event for order {}", order.getId());
-    Flux.fromIterable(order.getOrderLines())
-        .flatMap(warehouseService::verifyIsInStock)
-        .thenMany(Flux.fromIterable(order.getOrderLines()))
-        .doOnNext(warehouseService::reserveStock)
-        .onErrorStop()
-        .doOnError(error -> warehouseService.rejectStockReservation(order.getId(), error.getMessage()))
-        .doOnError(error -> notificationService.informCustomerAboutCancellation(order.getCustomerId(), order.getId(), error.getMessage()))
-        .doOnComplete(() -> warehouseService.confirmStockReservation(order.getId()))
-        .subscribe();
-  }
+    private final WarehouseService warehouseService;
 
-  @KafkaListener(topics = WAREHOUSE_STOCK_RELEASE_TOPIC)
-  public void releaseStock(@Payload Object event) {
-    var order = (Order) event;
-    log.info("received stock release event for order {}", order.getId());
-    Flux.fromIterable(order.getOrderLines())
-      .flatMap(warehouseService::clearStockReservation)
-      .subscribe();
-  }
+    private final NotificationService notificationService;
+
+    @KafkaListener(topics = WAREHOUSE_STOCK_RESERVE_TOPIC)
+    public void reserveStock(@Payload Object event) {
+
+        var order = (Order) event;
+        log.info("received stock reservation event for order {}", order.getId());
+        Flux.fromIterable(order.getOrderLines())
+                .flatMap(warehouseService::verifyIsInStock)
+                .thenMany(Flux.fromIterable(order.getOrderLines()))
+                .doOnNext(warehouseService::reserveStock)
+                .onErrorStop()
+                .doOnError(error -> warehouseService.rejectStockReservation(order.getId(), error.getMessage()))
+                .doOnError(error -> notificationService.informCustomerAboutCancellation(order.getCustomerId(), order.getId(), error.getMessage()))
+                .doOnComplete(() -> warehouseService.confirmStockReservation(order.getId()))
+                .subscribe();
+    }
+
+    @KafkaListener(topics = WAREHOUSE_STOCK_RELEASE_TOPIC)
+    public void releaseStock(@Payload Object event) {
+
+        var order = (Order) event;
+        log.info("received stock release event for order {}", order.getId());
+        Flux.fromIterable(order.getOrderLines())
+                .flatMap(warehouseService::clearStockReservation)
+                .subscribe();
+    }
+
 }

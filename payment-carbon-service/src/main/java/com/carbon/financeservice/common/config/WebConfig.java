@@ -8,10 +8,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebConfig {
 
-  @Bean
-  ObjectMapper objectMapper() {
-    var objectMapper = new ObjectMapper();
-    objectMapper.registerModule(new ParanamerModule());
-    return objectMapper;
-  }
+    @Bean
+    ObjectMapper objectMapper() {
+
+        var objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new ParanamerModule());
+        return objectMapper;
+    }
+
 }
