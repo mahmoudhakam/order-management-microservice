@@ -9,6 +9,7 @@ Draw architecture high level
 Draw the order fulfillment flow with kafa communication
 Upgrade to spring cloud streams
 Add Open api to all services
+Add spotify docker images
 Add HA eureka
 Externalize the dependency
 Add web view service to choose products and add to the cart then checkout to fulfillment order
@@ -22,7 +23,7 @@ Deploy to K8s
 Add histrix dashboard (Add circuit breaker)
 Add distributed tracing zipking && slueth, store events to db
 Add chaos engineering activityw
-Add monitoring with grafana
+Add monitoring with grafana,promethues
 Add new relic 
 Add ELK
 Add Pipe line jenkins to deploy to K8s
