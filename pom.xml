@@ -17,7 +17,8 @@
     </parent>
 
     <modules>
-        <module>kafka-order-service</module>
+        <module>order-carbon-service</module>
+        <module>warehouse-carbon-service</module>
     </modules>
 
     <properties>
