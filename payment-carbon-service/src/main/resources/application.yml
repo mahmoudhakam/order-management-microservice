@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    active: dev
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:19092,localhost:29092,localhost:39092}
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_USER:root}:${MONGO_PASSWORD:rootcarbon}@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/payment
+
+
+server:
+  port: 9063
+
+app:
+  catalogue-service:
+    base-uri: ${CATALOGUE_SERVICE_URI:localhost:9065}
+    products-uri: ${app.catalogue-service.base-uri}/products

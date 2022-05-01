@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>order-service</artifactId>
+    <artifactId>notification-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -11,7 +11,7 @@
     </properties>
     <packaging>jar</packaging>
 
-    <name>kafka/order-service</name>
+    <name>kafka/notification-service</name>
 
     <parent>
         <groupId>com.carbon</groupId>
@@ -41,6 +41,23 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>mockwebserver</artifactId>
+            <version>3.14.4</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
