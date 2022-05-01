@@ -7,6 +7,7 @@ TODO:
 ```bash
 Draw architecture high level
 Draw the order fulfillment flow with kafa communication
+Upgrade to spring cloud streams
 Add Open api to all services
 Add HA eureka
 Externalize the dependency
