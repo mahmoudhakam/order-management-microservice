@@ -19,6 +19,7 @@
     <modules>
         <module>order-carbon-service</module>
         <module>warehouse-carbon-service</module>
+        <module>notification-carbon-service</module>
     </modules>
 
     <properties>
