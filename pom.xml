@@ -25,6 +25,7 @@
         <module>product-catalogue-carbon-service</module>
         <module>HA-discovery-server</module>
         <module>config-server</module>
+        <module>edge-server</module>
     </modules>
 
     <properties>
