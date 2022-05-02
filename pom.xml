@@ -23,6 +23,8 @@
         <module>payment-carbon-service</module>
         <module>customer-carbon-service</module>
         <module>product-catalogue-carbon-service</module>
+        <module>HA-discovery-server</module>
+        <module>config-server</module>
     </modules>
 
     <properties>

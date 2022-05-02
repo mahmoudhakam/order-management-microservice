@@ -1,0 +1,4 @@
+#{configserver ip:port}/encrypt
+#{configserver ip:port}/decrypt
+encrypt:
+  key: carbon-team-secure-key
