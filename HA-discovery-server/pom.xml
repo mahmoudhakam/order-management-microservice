@@ -12,7 +12,7 @@
     <groupId>com.carbon</groupId>
     <artifactId>discovery-server</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Eureka Discovery Server</name>
+    <name>kafka/Eureka Discovery Server</name>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -23,10 +23,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.retry</groupId>

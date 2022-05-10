@@ -10,34 +10,40 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  private final String username;
-  private final String password;
+    private final String username;
 
-  @Autowired
-  public SecurityConfig(
-      @Value("${app.eureka.user}") String username,
-      @Value("${app.eureka.pass}") String password) {
-    this.username = username;
-    this.password = "{noop}".concat(password);
-  }
+    private final String password;
 
-  @Override
-  public void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.inMemoryAuthentication()
-            .withUser(username)
-            .password(password)
-            .authorities("USER");
-  }
+    @Autowired
+    public SecurityConfig(
+            @Value("${app.eureka.user}") String username,
+            @Value("${app.eureka.pass}") String password) {
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http
-        // Disable CRCF to allow services to register themselves with Eureka
-        .csrf()
-          .disable()
-        .authorizeRequests()
-          .anyRequest().authenticated()
-          .and()
-          .httpBasic();
-  }
+        this.username = username;
+        this.password = "{noop}".concat(password);
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+        auth.inMemoryAuthentication()
+                .withUser(username)
+                .password(password)
+                .authorities("USER");
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http
+                // Disable CRCF to allow services to register themselves with Eureka
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .httpBasic();
+    }
+
 }

@@ -12,7 +12,7 @@
 	<groupId>com.carbon</groupId>
 	<artifactId>config-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Config Server</name>
+	<name>kafka/Config Server</name>
 	<packaging>jar</packaging>
 
 	<dependencies>

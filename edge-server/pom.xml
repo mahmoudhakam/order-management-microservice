@@ -13,7 +13,7 @@
     <groupId>com.carbon</groupId>
     <artifactId>edge-server</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Edge Server</name>
+    <name>kafka/Edge Server</name>
     <packaging>jar</packaging>
 
     <dependencies>
