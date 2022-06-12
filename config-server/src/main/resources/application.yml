@@ -1,34 +1,45 @@
 server:
-    port: 8881
-    error:
-        include-message: always
-        include-binding-errors: always
+  port: 0
+  error:
+    include-message: always
+    include-binding-errors: always
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "${CONFIG_EUREKA_URL:http://localhost:8761/eureka}"
 
 spring:
-    profiles:
-        active: dev
-    application:
-        name: config-server
-    cloud:
-        config:
-            server:
-                native:
-                    searchLocations: file:@parent.basedir@/../config/files
-    security:
-        user:
-            name: dev-usr
-            password: dev-pwd
+  profiles:
+    active: native
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        native:
+          searchLocations:
+            - ${app.config.path}/default
+            - ${app.config.path}/edge
+  security:
+    user:
+      name: appusr
+      password: appdev
 # WARNING: Exposing all management endpoints over http should only
 #          be used during development, must be locked down in production!
 management:
-    endpoint.health.show-details: "ALWAYS"
-    endpoints.web.exposure.include: "*"
+  endpoint.health.show-details: "ALWAYS"
+  endpoints.web.exposure.include: "*"
 
 logging:
-    level:
-        root: info
+  level:
+    root: info
+
+app:
+  config:
+    path: "${APP_CONFIG_PATH:file:///app/files/config}"
 ---
 spring:
-    profiles: docker
-    cloud:
-        config.server.native.searchLocations: file:/config/files
+  profiles: docker
+  cloud:
+    config.server.native.searchLocations: file:/config/files
