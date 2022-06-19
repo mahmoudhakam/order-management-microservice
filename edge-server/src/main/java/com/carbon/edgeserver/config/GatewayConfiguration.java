@@ -33,26 +33,26 @@ public class GatewayConfiguration {
    *
    * @return ReactiveHealthContributor information about all the core microservices.
    */
-  @Bean(name = "Core Microservices")
-  ReactiveHealthContributor coreServices() {
-
-    ReactiveHealthIndicator productHealthIndicator = () -> getServicesHealth("http://product");
-    ReactiveHealthIndicator recommendationHealthIndicator =
-        () -> getServicesHealth("http://recommendation");
-    ReactiveHealthIndicator reviewHealthIndicator = () -> getServicesHealth("http://review");
-    ReactiveHealthIndicator storeHealthIndicator = () -> getServicesHealth("http://store");
-    ReactiveHealthIndicator authHealthIndicator = () -> getServicesHealth("http://auth-server");
-
-    Map<String, ReactiveHealthContributor> healthIndicators =
-        Map.of(
-            "Product Service", productHealthIndicator,
-            "Recommendation Service", recommendationHealthIndicator,
-            "Review Service", reviewHealthIndicator,
-            "Store Service", storeHealthIndicator,
-            "Authorization Server", authHealthIndicator);
-
-    return CompositeReactiveHealthContributor.fromMap(healthIndicators);
-  }
+//  @Bean(name = "Core Microservices")
+//  ReactiveHealthContributor coreServices() {
+//
+//    ReactiveHealthIndicator productHealthIndicator = () -> getServicesHealth("http://product");
+//    ReactiveHealthIndicator recommendationHealthIndicator =
+//        () -> getServicesHealth("http://recommendation");
+//    ReactiveHealthIndicator reviewHealthIndicator = () -> getServicesHealth("http://review");
+//    ReactiveHealthIndicator storeHealthIndicator = () -> getServicesHealth("http://store");
+//    ReactiveHealthIndicator authHealthIndicator = () -> getServicesHealth("http://auth-server");
+//
+//    Map<String, ReactiveHealthContributor> healthIndicators =
+//        Map.of(
+//            "Product Service", productHealthIndicator,
+//            "Recommendation Service", recommendationHealthIndicator,
+//            "Review Service", reviewHealthIndicator,
+//            "Store Service", storeHealthIndicator,
+//            "Authorization Server", authHealthIndicator);
+//
+//    return CompositeReactiveHealthContributor.fromMap(healthIndicators);
+//  }
 
   private Mono<Health> getServicesHealth(String url) {
     url += "/actuator/health";
