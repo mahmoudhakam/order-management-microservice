@@ -36,16 +36,16 @@ eureka:
     service-url.defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
     # Make the number of renewals required to prevent an emergency tiny (probably 0)
-    renewal-percent-threshold: 0.49
+#    renewal-percent-threshold: 0.49
 
-    response-cache-update-interval-ms: 5000
+#    response-cache-update-interval-ms: 5000
     # Switch off self-preservation. Will turn lease expiration on and evict all instances which
     #  no longer sent a heartbeat and whose lease has expired.
     # Self-preservation is desirable for Eureka clusters and where network outages
     #  (e.g. between data centers) could be possible.
     # Note: the lease validity / expiration is configured in the Eureka _client_ instances
     # (see eureka.instance.lease-expiration-duration-in-seconds).
-    enable-self-preservation: true
+#    enable-self-preservation: true
 
     # Make sure this is set to the same value as the lease renewal interval in
     #  Eureka _client_ instances (or slightly higher), This value is relevant for Eureka's
@@ -57,12 +57,12 @@ eureka:
     # - for one registered client: 60 / 3 * 0.5 * 1 = 10.
     # - for two registered clients: 60 / 3 * 0,5 * 2 = 20.
     # As soon as two clients are connected:
-    expected-client-renewal-interval-seconds: 3
+#    expected-client-renewal-interval-seconds: 3
 
     # The interval in which the instance eviction task scans for instances with expired leases.
     # Given in milliseconds.
-    eviction-interval-timer-in-ms: 2000
-    wait-time-in-ms-when-sync-empty: 0
+#    eviction-interval-timer-in-ms: 2000
+#    wait-time-in-ms-when-sync-empty: 0
 
 logging.level:
   com.netflix:
