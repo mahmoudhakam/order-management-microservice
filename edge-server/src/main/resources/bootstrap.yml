@@ -1,22 +1,27 @@
-app:
-  config-server:
-    host: localhost
-    port: 8888
-
-CONFIG_SERVER_USR: appusr
-CONFIG_SERVER_PWD: appdev
-
 spring:
-  application.name: edge-server
-  cloud.config:
-    fail-fast: true
-    retry:
-      initial-interval: 3000
-      multiplier: 1.3
-      max-interval: 10000
-      max-attempts: 20
+  application:
+    name: edge-server
   cloud:
     config:
+      username: appusr
+      password: appdev
+      fail-fast: true
+      retry:
+        max-attempts: 20
+        max-interval: 15000
+        initial-interval: 10000
       discovery:
         enabled: true
-        serviceId: config-server
+        service-id: config-server
+
+eureka:
+  #  instance:
+  #    metadataMap:
+  #      user: appusr
+  #      password: appdev
+  client:
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: "${EUREKA_URL:http://appusr:appdev@localhost:8761/eureka}"

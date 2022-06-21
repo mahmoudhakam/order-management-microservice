@@ -6,6 +6,8 @@ server:
     include-binding-errors: always
 
 spring:
+  profiles:
+    active: local
   cloud:
     # As Spring Cloud Ribbon is in maintenance mode.
     # It is recommended switching to BlockingLoadBalancerClient instead.
@@ -19,8 +21,6 @@ eureka:
     prefer-ip-address: true
   client:
     healthcheck.enabled: true
-    service-url:
-      defaultZone: "http://appusr:appdev@localhost:8761/eureka"
     initial-instance-info-replication-interval-seconds: 10
     registry-fetch-interval-seconds: 10
 
