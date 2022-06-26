@@ -7,6 +7,7 @@ spring:
 server:
   port: 9062
 
+# to be replaced later on by feign client
 app:
   customer-service:
     base-uri: ${CUSTOMER_SERVICE_URI:localhost:9064}

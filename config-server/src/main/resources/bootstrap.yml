@@ -37,6 +37,7 @@ spring:
             - ${app.config.path}/default
             - ${app.config.path}/edge
             - ${app.config.path}/customer
+            - ${app.config.path}/notification
   security:
     user:
       name: appusr

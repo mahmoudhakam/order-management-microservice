@@ -11,9 +11,9 @@ spring:
         - id: customer-service
           # lb:// is used to direct Spring Cloud Gateway to use the client-side load balancer
           # to look up the destination in the discovery service.
-          uri: lb://customer
+          uri: lb://customers
           predicates:
-            - Path=/customer/**
+            - Path=/customers/**
 
 server:
   port: 8443 # SSL Port
