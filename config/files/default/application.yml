@@ -38,9 +38,9 @@ management:
     shutdown.enabled: true
     health.show-details: always
 
-logging.level:
-    org:
-      springframework:
-        web: DEBUG
-    web: DEBUG
-    root: INFO
+#logging.level:
+#    org:
+#      springframework:
+#        web: DEBUG
+#    web: DEBUG
+#    root: INFO

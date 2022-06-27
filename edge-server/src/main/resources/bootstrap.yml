@@ -2,6 +2,12 @@ spring:
   application:
     name: edge-server
   cloud:
+    loadbalancer.ribbon.enabled: false
+    gateway:
+      discovery:
+        locator:
+          lower-case-service-id: true
+          enabled: true
     config:
       username: appusr
       password: appdev

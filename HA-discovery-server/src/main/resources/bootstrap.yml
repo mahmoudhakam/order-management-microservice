@@ -64,10 +64,10 @@ eureka:
 #    eviction-interval-timer-in-ms: 2000
 #    wait-time-in-ms-when-sync-empty: 0
 
-logging.level:
-  com.netflix:
-    eureka: DEBUG
-    discovery: DEBUG
+#logging.level:
+#  com.netflix:
+#    eureka: DEBUG
+#    discovery: DEBUG
 
 ---
 spring.profiles: node1

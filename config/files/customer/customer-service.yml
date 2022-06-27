@@ -3,7 +3,8 @@ spring:
     active: dev
   data:
     mongodb:
-      uri: mongodb://${MONGO_USER:root}:${MONGO_PASSWORD:carbonroot}@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/customer-db?authSource=root
+      uri: mongodb://localhost:27017/customer-db
+#      uri: mongodb://${MONGO_USER:root}:${MONGO_PASSWORD:carbonroot}@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/customer-db?authSource=root
 
 server:
   port: 9064

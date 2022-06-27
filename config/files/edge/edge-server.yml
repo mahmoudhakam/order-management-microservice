@@ -6,12 +6,11 @@ spring:
   cloud:
     # Route definitions of the system
     gateway:
-      discovery.locator.enabled: true
       routes:
         - id: customer-service
           # lb:// is used to direct Spring Cloud Gateway to use the client-side load balancer
           # to look up the destination in the discovery service.
-          uri: lb://customers
+          uri: lb://customer-service
           predicates:
             - Path=/customers/**
 
@@ -27,9 +26,3 @@ logging.level:
   org.springframework.cloud.gateway: TRACE
   org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
   org.springframework.web.server.adapter.HttpWebHandlerAdapter: TRACE
-
----
-spring:
-  profiles: external-OAuth-Provider
-  security.oauth2.resourceserver:
-    jwt.jwk-set-uri: https://dev-taman.eu.auth0.com/.well-known/jwks.json
