@@ -1,3 +1,29 @@
 spring:
   application:
     name: payment-service
+  cloud:
+    config:
+      username: appusr
+      password: appdev
+      fail-fast: true
+      retry:
+        max-attempts: 20
+        max-interval: 15000
+        initial-interval: 10000
+      discovery:
+        enabled: true
+        service-id: config-server
+
+eureka:
+  #  instance:
+  #    metadataMap:
+  #      user: appusr
+  #      password: appdev
+  client:
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: "${EUREKA_URL:http://appusr:appdev@localhost:8761/eureka}"
+
+

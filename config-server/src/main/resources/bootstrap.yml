@@ -38,6 +38,10 @@ spring:
             - ${app.config.path}/edge
             - ${app.config.path}/customer
             - ${app.config.path}/notification
+            - ${app.config.path}/orders
+            - ${app.config.path}/payment
+            - ${app.config.path}/product
+            - ${app.config.path}/warehouse
   security:
     user:
       name: appusr
