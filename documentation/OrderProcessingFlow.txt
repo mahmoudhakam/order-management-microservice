@@ -1,0 +1,5 @@
+Order received on Order controller
+Order saved in orders-db
+Notification sent to warehouse to confirm order
+Stock Confirmation is sent back to Order service
+Order status is updated, then Event is sent to payment to process payment
