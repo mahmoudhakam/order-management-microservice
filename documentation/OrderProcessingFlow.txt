@@ -3,3 +3,14 @@ Order saved in orders-db
 Notification sent to warehouse to confirm order
 Stock Confirmation is sent back to Order service
 Order status is updated, then Event is sent to payment to process payment
+
+
+
+When create order request is sent to Order Service, a number of microservices are ready to kick start upon receiving the corresponding events. In the preceding diagram, there are six microservices shown:
+
+Order Service creates and updates orders.
+Warehouse Service reserves/releases stock for orders and creates shipment records.
+Finance Service processes payments and creates invoices.
+Catalogue Service contains product-related information (i.e. products, details, prices)
+Notification Service sends notifications to customers informing them about different order stages
+Customer Service contains customer-related information (i.e. name, contact infromation)
