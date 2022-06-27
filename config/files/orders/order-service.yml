@@ -5,7 +5,7 @@ spring:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:19092,localhost:29092,localhost:39092}
   data:
     mongodb:
-      uri: mongodb://${MONGO_USER:root}:${MONGO_PASSWORD:carbonroot}@${MONGO_HOST:localhost}:${MONGO_PORT:27017}/orders-db
+      uri: mongodb://${MONGO_USER:appusr}:${MONGO_PASSWORD:appdev}@${MONGO_HOST:localhost}:${MONGO_PORT:27018}/orders-db
 
 server:
   port: 9060
