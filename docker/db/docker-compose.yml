@@ -9,8 +9,8 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - D:/Docker_Volumes/mongo/data:/data/db
+      - mongo-data:/data/db
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: carbonroot
+      MONGO_INITDB_ROOT_USERNAME: appusr
+      MONGO_INITDB_ROOT_PASSWORD: appdev

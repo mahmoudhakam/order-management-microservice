@@ -1,7 +1,7 @@
 db.createUser(
         {
-            user: "root",
-            pwd: "carbonroot",
+            user: "appusr",
+            pwd: "appdev",
             roles: [
                 {
                     role: "readWrite",
@@ -10,7 +10,11 @@ db.createUser(
                 {
                     role: "readWrite",
                     db: "warehouse-db"
-                }
+                },
+                {
+                                    role: "readWrite",
+                                    db: "customer-db"
+                                }
             ]
         }
 );
