@@ -2,6 +2,13 @@ spring:
   application:
     name: customer-service
   cloud:
+    stream:
+      kafka:
+        binder:
+          zkNodes: localhost:12181,localhost:22181,localhost:32181
+          brokers: localhost:19092,localhost:29092,localhost:39092
+    bus:
+      enabled: true
     config:
       username: appusr
       password: appdev

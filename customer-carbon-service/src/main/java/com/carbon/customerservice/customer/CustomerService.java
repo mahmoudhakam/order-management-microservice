@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.PostConstruct;
+
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
